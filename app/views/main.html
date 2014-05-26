@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default articles">
+            <div class="panel-heading">Articles</div>
+            <div id="articlesPanel" class="list-group">
+                <div ng-repeat="article in articles" article-drt content="article" class="list-group-item"></div>
+            </div>
+        </div>
+    </div>
+	<div class="col-md-8" >
+		<div class="panel panel-default">
+			<div class="panel-heading articles-head">
+				<ol class="breadcrumb">
+					<li><a href="#">Events</a></li>
+					<li><a href="#">Event 1</a></li>
+				</ol>
+			</div>
+			<div ui-view>
+				<ul id="eventPanel" class="list-group">
+					<li ng-repeat="event in events" class="list-group-item article">
+						<a ui-sref="home.event">
+							<h5>{{event.eventName}}</h5>
+	          			</a>
+	        		</li>
+	      		</ul>
+	      		 <a ui-sref="home.newarticle" class="btn btn-primary addArtBtn">Add Event</a>
+
+	  		</div>
+		</div>
+	</div>
+</div>

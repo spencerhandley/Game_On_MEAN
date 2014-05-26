@@ -1,0 +1,25 @@
+<div class="create article col-md-6">
+  <div class="caption">
+    <form>
+      <fieldset >
+        <div>
+          <input type="text" class="form-control" ng-model="currentArticle.headline" placeholder="Headline">
+        </div>
+        
+        <div >
+          <textarea class="form-control" ng-model="currentArticle.body" rows="10" placeholder="Headline"></textarea>
+        </div>
+        <div>
+          <input type="text" class="form-control" ng-model="currentArticle.source" placeholder="Source">
+        </div>
+        <div>
+          <select  ng-model="currentArticle.type">
+            <option value="Tweet" class="form-control">Tweet</option>
+            <option value="Article" class="form-control">Article</option>
+            <option value="Podcast" class="form-control">Podcast</option>
+          </select>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
