@@ -29,19 +29,22 @@ app.controller('editCtrl', function ($scope, ArticleService) {
 	}
 });
 
-app.directive('sortable', function () {
+app.directive('sortable', function (ArticlesService) {
 	var linker = function (scope, element, attrs) {
-		var event = scope.event;
-		console.log(event);
+		var event_ID = scope.event;
+		console.log(event_ID);
 		element.sortable({
 			items: 'li',
 			connectWith: '.list',
 			receive: function (event, ui) {
 				var prevScope = angular.element(ui.item.prev()).scope();
 				var curScope = angular.element(ui.item).scope();
+				console.log("current scope", curScope.content)
+				console.log("previous Scope", prevScope.content)
 				scope.$apply(function () {
-					ArticleModel.insertStoryAfter(curScope.article, prevScope.article)
-					curScope.article.status = status
+					ArticlesService.insertArticleAfter(curScope.content, prevScope.content)
+					curScope.content.event_ID = event_ID
+					console.log("event", curScope)
 				})
 			}
 		})
@@ -73,6 +76,7 @@ app.directive('articleDrt', function () {
 	}
 	var template = "<h3>{{content.headline}}</h3>";
 	template += "<h4>{{content.type}}</h4>";
+	template += "<h4>{{content.event_ID}}</h4>";
 	template += "<div class='btn btn-danger' ng-click='deleteArticle(content.item_ID)'>Delete</div>";
 	template += "<a ui-sref='home.edit' ng-click='editArticle(content.item_ID)' class='btn btn-primary'>Edit</a>"
 	return {
