@@ -1,6 +1,7 @@
 'use strict';
+var app = angular.module('gameonMeanApp')
 
-angular.module('gameonMeanApp').factory('EventsService', function() {
+app.factory('EventsService', function() {
 	var events = [
 		{
 			'eventName' : 'Event',
@@ -30,3 +31,5 @@ angular.module('gameonMeanApp').factory('EventsService', function() {
 		getEvents: getEvents
 	};
 });
+
+

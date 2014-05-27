@@ -15,12 +15,17 @@
 			.state('home.newarticle', {
 				url: '/newarticle',
 				templateUrl: 'views/newarticle.html',
-				controller: 'MainCtrl'
+				controller: 'newCtrl'
 			})
 			.state('home.event', {
 				url: 'event',
 				templateUrl: 'views/event.html',
-				controller: 'MainCtrl'
+				controller: 'evtCtrl'
+			})
+			.state('home.edit', {
+				url: 'event/edit',
+				templateUrl: 'views/edit.html',
+				controller: 'editCtrl'
 			})
 	});
 

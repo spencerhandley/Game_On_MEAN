@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-md-12 formCont">
+      <form>
+        <fieldset >
+          <div>
+            <input type="text" class="form-control" ng-model="article.headline" placeholder="Headline">
+          </div>
+          
+          <div >
+            <textarea class="form-control" ng-model="article.body" rows="10" placeholder="Body" ></textarea>
+          </div>
+          <div>
+            <input type="text" class="form-control" ng-model="article.source" placeholder="Source" value="article.body">
+          </div>
+          <div>
+            <select  ng-model="article.type">
+              <option value="Tweet" class="form-control">Tweet</option>
+              <option value="Article" class="form-control">Article</option>
+              <option value="Podcast" class="form-control">Podcast</option>
+            </select>
+          </div>
+        </fieldset>
+        <div class="btn btn-primary" id="addArticle" ng-click="updateArticle()">Update Article</div>
+        <a class="btn btn-danger" ng-click="deleteArticle()"id="cancel">Delete</a>
+        <a ui-sref="home" class="btn btn-default" id="cancel">Cancel</a>
+
+      </form>
+    </div>
+  </div>

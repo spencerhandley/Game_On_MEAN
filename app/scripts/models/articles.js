@@ -1,5 +1,25 @@
 'use strict';
-angular.module('gameonMeanApp').factory('ArticlesService', function() {
+
+var app = angular.module('gameonMeanApp')
+
+app.factory('ArticleService', function() {
+	var article = 
+		{'item_ID' : 1,
+		'headline': 'this is a headline',
+		'body': 'this is a body',
+		'type': 'Article',
+		'source': 'Twitter Handle'}
+		
+	var getArticle = function () {
+		return article;
+	};
+
+	return {
+		getArticle: getArticle
+	};
+});
+
+app.factory('EventArticlesService', function() {
 	var articles = [
 		{'item_ID' : 1,
 		'headline': 'this is a headline',
@@ -25,8 +45,50 @@ angular.module('gameonMeanApp').factory('ArticlesService', function() {
 		'headline': 'this is a headline',
 		'body': 'this is a body',
 		'type': 'article',
+		'source': 'Twitter Handle'}
+	];
+	var getArticles = function () {
+		return articles;
+	};
+
+	return {
+		getArticles: getArticles
+	};
+});
+app.factory('ArticlesService', function() {
+	var articles = [
+		{'item_ID' : 1,
+		'event': 3,
+		'headline': 'this is a headline',
+		'body': 'this is a body',
+		'type': 'article',
+		'source': 'Twitter Handle'},
+		{'item_ID' : 2,
+		'event': 4,
+		'headline': 'this is a headline',
+		'body': 'this is a body',
+		'type': 'article',
+		'source': 'Twitter Handle'},
+		{'item_ID' : 3,
+		'event': 2,
+		'headline': 'this is a headline',
+		'body': 'this is a body',
+		'type': 'article',
+		'source': 'Twitter Handle'},
+		{'item_ID' : 4,
+		'event': 1,
+		'headline': 'this is a headline',
+		'body': 'this is a body',
+		'type': 'article',
+		'source': 'Twitter Handle'},
+		{'item_ID' : 5,
+		'event': 1,
+		'headline': 'this is a headline',
+		'body': 'this is a body',
+		'type': 'article',
 		'source': 'Twitter Handle'},
 		{'item_ID' : 6,
+		'event': 1,
 		'headline': 'this is a headline',
 		'body': 'this is a body',
 		'type': 'article',

@@ -2,9 +2,9 @@
     <div class="col-md-4">
         <div class="panel panel-default articles">
             <div class="panel-heading">Articles</div>
-            <div id="articlesPanel" class="list-group">
-                <div ng-repeat="article in articles" article-drt content="article" class="list-group-item"></div>
-            </div>
+            <ul id="articlesPanel" class="list list-group">
+                <li ng-repeat="article in articles" article-drt content="article" class="list-group-item"></li>
+            </ul>
         </div>
     </div>
 	<div class="col-md-8" >
@@ -15,8 +15,8 @@
 					<li><a href="#">Event 1</a></li>
 				</ol>
 			</div>
-			<div ui-view>
-				<ul id="eventPanel" class="list-group">
+			<div id="artCont" ui-view>
+				<ul id="eventPanel" class="list list-group">
 					<li ng-repeat="event in events" class="list-group-item article">
 						<a ui-sref="home.event">
 							<h5>{{event.eventName}}</h5>
@@ -24,7 +24,6 @@
 	        		</li>
 	      		</ul>
 	      		 <a ui-sref="home.newarticle" class="btn btn-primary addArtBtn">Add Event</a>
-
 	  		</div>
 		</div>
 	</div>
