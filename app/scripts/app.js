@@ -26,7 +26,7 @@
 				url: 'article/:article/edit',
 				templateUrl: 'views/edit.html',
 				controller: function($scope, $stateParams, ArticleService) {
-					$scope.item = $stateParams.item
+					$scope.articleid = $stateParams.article;
 					$scope.article = ArticleService.getArticle();
 			    	$scope.deleteArticle = function (articleId) {
 						console.log('DELETED', articleId);

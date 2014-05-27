@@ -72,6 +72,22 @@ app.directive('sortable', function (ArticlesService) {
 	}
 });
 
+app.directive('breadcrumbs', function () {
+	var linker = function (scope, element, attrs) {
+		// code here
+	}
+
+	var template = "<ol class='breadcrumb'><li><a href='#'>Events</a></li><li><a href='#'>{{}}</a></li></ol>"
+	var controller = function ($scope) {
+		// code here
+	}
+	return {
+		restrict: "E",
+		link: linker,
+		template: template,
+		controller: controller
+	}
+})
 app.directive('articleDrt', function () {
 	var linker = function(scope, element) {
 		element.mouseover(function () {
@@ -96,7 +112,7 @@ app.directive('articleDrt', function () {
 	template += "<h4>{{content.type}}</h4>";
 	template += "<h4>{{content.event_ID}}</h4>";
 	template += "<div class='btn btn-danger' ng-click='deleteArticle(content.item_ID)'>Delete</div>";
-	template += "<a ng-href='#/article/{{content.id}}/edit' ng-click='editArticle(content.item_ID)' class='btn btn-primary'>Edit</a>"
+	template += "<a ng-href='#/article/{{content.id}}/edit' article='{{content}}'' ng-click='editArticle(content.item_ID)' class='btn btn-primary'>Edit</a>"
 	return {
 		
 		template: template,
