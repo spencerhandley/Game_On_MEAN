@@ -18,14 +18,25 @@
 				controller: 'newCtrl'
 			})
 			.state('home.event', {
-				url: 'event',
+				url: 'event/:event',
 				templateUrl: 'views/event.html',
 				controller: 'evtCtrl'
 			})
 			.state('home.edit', {
-				url: 'event/edit',
+				url: 'article/:article/edit',
 				templateUrl: 'views/edit.html',
-				controller: 'editCtrl'
+				controller: function($scope, $stateParams, ArticleService) {
+					$scope.item = $stateParams.item
+					$scope.article = ArticleService.getArticle();
+			    	$scope.deleteArticle = function (articleId) {
+						console.log('DELETED', articleId);
+					};
+					$scope.updateArticle = function (articleId) {
+						console.log('UPDATED', articleId);
+					}
+				}
+
+				// "editctrl"
 			})
 	});
 

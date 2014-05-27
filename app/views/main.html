@@ -12,14 +12,14 @@
 			<div class="panel-heading articles-head">
 				<ol class="breadcrumb">
 					<li><a href="#">Events</a></li>
-					<li><a href="#">Event 1</a></li>
+					<li><a href="#" ng-model="route">{{route}}</a></li>
 				</ol>
 			</div>
 			<div id="artCont" ui-view>
 				<ul id="eventPanel" class="list list-group">
-					<li ng-repeat="event in events" class="list-group-item article">
-						<a ui-sref="home.event">
-							<h5>{{event.eventName}}</h5>
+					<li ng-repeat="evt in events" class="list-group-item article">
+						<a ng-href="#/event/{{evt.event_ID}}" event="event">
+							<h5>{{evt.eventName}}</h5>
 	          			</a>
 	        		</li>
 	      		</ul>

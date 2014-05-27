@@ -177,9 +177,11 @@ app.factory('ArticlesService', function() {
 	};
 	var insertArticleAfter = function (article, prevArt) {
 		console.log("ARTICLE IN FUNC", article)
-		// articles.remove(article.id);
+		articles = articles.remove(function(t) {
+			return t['id'] == article.id
+		});
 		console.log("ARTICLES", articles)
-		articles.add(article, articles.findIndex(prevArt) + 1)
+		articles = articles.add(article, articles.findIndex(prevArt) + 1)
 	}
 
 	return {

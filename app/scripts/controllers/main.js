@@ -12,11 +12,29 @@ app.controller('evtCtrl', function ($scope, ArticlesService) {
 
 });
 
-app.controller('newCtrl', function ($scope) {
+app.controller('newArtCtrl', function ($scope, articleFactory, ArticlesService) {
     $scope.publishArticle = function () {
+    	var newArticle = articleFactory.createArticle($scope.headline, $scope.body, $scope.type, $scope.source, $scope.event)
+		ArticlesService.add(newArticle)
 		console.log('published!');
 	};
 });
+
+function Article(headline, body, type, source, event) {
+	this.headline = headline;
+	this.body = body;
+	this.type = type;
+	this.source = source;
+	this.event = event;
+	this.id = id;
+}
+
+app.value('articleFactory', {
+	createArticle: function (headline, body, type, source, event) {
+		var eventId = event.event_ID;
+		return new Article(headline, body, type, source, eventId, -1)
+	}
+})
 
 app.controller('editCtrl', function ($scope, ArticleService) {
     $scope.article = ArticleService.getArticle();
@@ -78,7 +96,7 @@ app.directive('articleDrt', function () {
 	template += "<h4>{{content.type}}</h4>";
 	template += "<h4>{{content.event_ID}}</h4>";
 	template += "<div class='btn btn-danger' ng-click='deleteArticle(content.item_ID)'>Delete</div>";
-	template += "<a ui-sref='home.edit' ng-click='editArticle(content.item_ID)' class='btn btn-primary'>Edit</a>"
+	template += "<a ng-href='#/article/{{content.id}}/edit' ng-click='editArticle(content.item_ID)' class='btn btn-primary'>Edit</a>"
 	return {
 		
 		template: template,
