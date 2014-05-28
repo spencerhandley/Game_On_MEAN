@@ -1,6 +1,9 @@
 'use strict';
 var app = angular.module('gameonMeanApp')
-app.controller('MainCtrl', function ($scope, ArticlesService, EventsService) {
+app.controller('MainCtrl', function ($scope, ArticlesService, EventsService, events) {
+	var eventserve = events.get()
+	console.log(eventserve)
+
     $scope.articles = ArticlesService.getArticles();
     $scope.events = EventsService.getEvents();
     $scope.path = null
@@ -24,7 +27,10 @@ app.controller('MainCtrl', function ($scope, ArticlesService, EventsService) {
 
 
 app.controller('evtCtrl', function ($scope) {
-    $scope.event = 1;
+    $scope.setEventId = function (eventId) {
+    	console.log(eventId)
+    	$scope.eventId = eventId
+    }
 });
 
 app.controller('artCtrl', function ($scope, ArticlesService) {
@@ -62,21 +68,21 @@ app.value('articleFactory', {
 
 app.directive('sortable', function (ArticlesService) {
 	var linker = function (scope, element, attrs) {
-		console.log(element.scope())
-		var event_ID = scope.event;
+		console.log(scope)
+		var event_ID = scope.article;
 		element.sortable({
 			items: 'li',
 			connectWith: '.list',
 			receive: function (event, ui) {
-				console.log("element", angular.element(ui.item).scope())
+				// console.log("element", element.scope())
 				var prevScope = angular.element(ui.item.prev()).scope();
 				var curScope = angular.element(ui.item).scope();
-				console.log("current scope", curScope)
-				console.log("previous Scope", prevScope)
+				// console.log("current scope", curScope)
+				// console.log("previous Scope", prevScope)
 				scope.$apply(function () {
-					ArticlesService.insertArticleAfter(curScope.content, prevScope.content)
+					ArticlesService.insertArticleAfter(curScope, prevScope)
 					curScope.content.event_ID = event_ID
-					console.log("event", curScope)
+					// console.log("event", curScope)
 				})
 			}
 		})

@@ -18,6 +18,9 @@
               <option value="Article" class="form-control">Article</option>
               <option value="Podcast" class="form-control">Podcast</option>
             </select>
+            <select  ng-model="eventId">
+              <option ng-repeat="event in events" ng-model="event.eventName" class="form-control">{{event.eventName}} {{event.event_ID}}</option>
+            </select>
           </div>
         </fieldset>
         <div class="btn btn-primary" id="addArticle" ng-click="publishArticle()">Publish Article</div>

@@ -2,7 +2,7 @@
 (function(){
 
 
-	var app = angular.module('gameonMeanApp', ['ui.router']);
+	var app = angular.module('gameonMeanApp', ['ui.router', 'ngResource']);
 	app.config(function ($stateProvider, $urlRouterProvider) {
 		$urlRouterProvider.otherwise("/");
 
@@ -14,8 +14,8 @@
 			})
 			.state('home.newarticle', {
 				url: '/newarticle',
-				templateUrl: 'views/newarticle.html',
-				controller: 'newCtrl'
+				templateUrl: 'views/edit.html',
+				controller: 'evtCtrl'
 			})
 			.state('home.event', {
 				url: 'event/:event',

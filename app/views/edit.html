@@ -13,10 +13,13 @@
             <input type="text" class="form-control" ng-model="article.source" placeholder="Source" value="article.body">
           </div>
           <div>
-            <select  ng-model="article.type">
-              <option value="Tweet" class="form-control">Tweet</option>
-              <option value="Article" class="form-control">Article</option>
-              <option value="Podcast" class="form-control">Podcast</option>
+            <select ng-model="article.type">
+              <option value="tweet" class="form-control">Tweet</option>
+              <option value="article" class="form-control">Article</option>
+              <option value="podcast" class="form-control">Podcast</option>
+            </select>
+            <select ng-model="article.event_ID">
+              <option ng-repeat="event in events" value="{{event.event_ID}}" class="form-control">{{event.eventName}} {{event.event_ID}}</option>
             </select>
           </div>
         </fieldset>
