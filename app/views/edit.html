@@ -20,8 +20,8 @@
             </select>
           </div>
         </fieldset>
-        <div class="btn btn-primary" id="addArticle" ng-click="updateArticle()">Update Article</div>
-        <a class="btn btn-danger" ng-click="deleteArticle()"id="cancel">Delete</a>
+        <div class="btn btn-primary" id="addArticle" ng-click="updateArticle(article.item_ID)">Update Article</div>
+        <a class="btn btn-danger" ng-click="deleteArticle(article.item_ID)"id="cancel">Delete</a>
         <a ui-sref="home" class="btn btn-default" id="cancel">Cancel</a>
 
       </form>

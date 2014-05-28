@@ -25,9 +25,10 @@
 			.state('home.edit', {
 				url: 'article/:article/edit',
 				templateUrl: 'views/edit.html',
-				controller: function($scope, $stateParams, ArticleService) {
-					$scope.articleid = $stateParams.article;
-					$scope.article = ArticleService.getArticle();
+				controller: function($scope, $stateParams, ArticlesService) {
+					var articleid = $stateParams.article;
+					console.log(_.where(ArticlesService.getArticles(), {id: Number(articleid)})[0])
+					$scope.article = _.where(ArticlesService.getArticles(), {id: Number(articleid)})[0];
 			    	$scope.deleteArticle = function (articleId) {
 						console.log('DELETED', articleId);
 					};

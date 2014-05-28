@@ -1,4 +1,5 @@
-<h5>{{article.item_ID}}</h5>
 <h3>{{article.headline}}</h3>
 <h4>{{article.type}}</h4>
-<div class="btn btn-danger" ng-click="deleteArticle(article.item_ID)">Delete</div>
+<h4>{{article.event_ID}}</h4>
+<div class='btn btn-danger' ng-click='deleteArticle(article)'>Delete</div>
+<a ng-href='#/article/{{article.id}}/edit' article='{{article}}' ng-click='editArticle(article.id, "Edit")'class='btn btn-primary'>Edit</a>

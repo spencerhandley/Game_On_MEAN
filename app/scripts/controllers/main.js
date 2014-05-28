@@ -3,22 +3,46 @@ var app = angular.module('gameonMeanApp')
 app.controller('MainCtrl', function ($scope, ArticlesService, EventsService) {
     $scope.articles = ArticlesService.getArticles();
     $scope.events = EventsService.getEvents();
+    $scope.path = null
+    $scope.path2 = null 
+    $scope.changePath1 = function(path) {
+    	$scope.path = path
+    }
+    $scope.changePath2 = function(path) {
+    	$scope.path2 = path
+    }
+    $scope.changePath3 = function(path) {
+    	$scope.path = path
+    }
+    $scope.resetPaths = function(path) {
+    	$scope.path = null
+    	$scope.path2 = null
 
-  });
+    }
 
-app.controller('evtCtrl', function ($scope, ArticlesService) {
-    $scope.articles = ArticlesService.getArticles();
-    $scope.event = 1
+  })
 
+
+app.controller('evtCtrl', function ($scope) {
+    $scope.event = 1;
 });
 
-app.controller('newArtCtrl', function ($scope, articleFactory, ArticlesService) {
-    $scope.publishArticle = function () {
+app.controller('artCtrl', function ($scope, ArticlesService) {
+	$scope.deleteArticle = function (article) {
+			ArticlesService.deleteArticle(article)
+			console.log('DELETED', articleId);
+		};
+	$scope.editArticle = function (articleId, path) {
+		$scope.path2 = path
+		console.log('EDIT ARTICLE', articleId);
+	};
+	$scope.publishArticle = function () {
     	var newArticle = articleFactory.createArticle($scope.headline, $scope.body, $scope.type, $scope.source, $scope.event)
 		ArticlesService.add(newArticle)
 		console.log('published!');
 	};
-});
+
+})
 
 function Article(headline, body, type, source, event) {
 	this.headline = headline;
@@ -36,29 +60,19 @@ app.value('articleFactory', {
 	}
 })
 
-app.controller('editCtrl', function ($scope, ArticleService) {
-    $scope.article = ArticleService.getArticle();
-    $scope.deleteArticle = function (articleId) {
-		console.log('DELETED', articleId);
-	};
-	$scope.updateArticle = function (articleId) {
-		console.log('UPDATED', articleId);
-
-	}
-});
-
 app.directive('sortable', function (ArticlesService) {
 	var linker = function (scope, element, attrs) {
+		console.log(element.scope())
 		var event_ID = scope.event;
-		console.log(event_ID);
 		element.sortable({
 			items: 'li',
 			connectWith: '.list',
 			receive: function (event, ui) {
+				console.log("element", angular.element(ui.item).scope())
 				var prevScope = angular.element(ui.item.prev()).scope();
 				var curScope = angular.element(ui.item).scope();
-				console.log("current scope", curScope.content)
-				console.log("previous Scope", prevScope.content)
+				console.log("current scope", curScope)
+				console.log("previous Scope", prevScope)
 				scope.$apply(function () {
 					ArticlesService.insertArticleAfter(curScope.content, prevScope.content)
 					curScope.content.event_ID = event_ID
@@ -77,17 +91,18 @@ app.directive('breadcrumbs', function () {
 		// code here
 	}
 
-	var template = "<ol class='breadcrumb'><li><a href='#'>Events</a></li><li><a href='#'>{{}}</a></li></ol>"
 	var controller = function ($scope) {
+
 		// code here
 	}
 	return {
 		restrict: "E",
 		link: linker,
-		template: template,
+		templateUrl: '../../views/breadcrumb.html',
 		controller: controller
 	}
 })
+
 app.directive('articleDrt', function () {
 	var linker = function(scope, element) {
 		element.mouseover(function () {
@@ -95,31 +110,10 @@ app.directive('articleDrt', function () {
 		}).mouseout(function () {
 			element.css({'opacity': 1.0})
 		})
-		// functions here
-		// element.on('click', function () {
-		//do stuff
-		// });
 	};
-	var controller = function($scope) {
-		$scope.deleteArticle = function (articleId) {
-			console.log('DELETED', articleId);
-		};
-		$scope.editArticle = function (articleId) {
-			console.log('EDIT ARTICLE', articleId);
-		};
-	}
-	var template = "<h3>{{content.headline}}</h3>";
-	template += "<h4>{{content.type}}</h4>";
-	template += "<h4>{{content.event_ID}}</h4>";
-	template += "<div class='btn btn-danger' ng-click='deleteArticle(content.item_ID)'>Delete</div>";
-	template += "<a ng-href='#/article/{{content.id}}/edit' article='{{content}}'' ng-click='editArticle(content.item_ID)' class='btn btn-primary'>Edit</a>"
 	return {
-		
-		template: template,
-		controller: controller,
-		link: linker,
-		scope: {
-			content: '='
-		}
+		templateUrl: '../../views/article.html',
+		controller: "artCtrl",
+		link: linker
 	};
 });
