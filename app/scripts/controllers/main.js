@@ -2,19 +2,28 @@
 var app = angular.module('gameonMeanApp')
 app.controller('MainCtrl', function ($scope, ArticlesService, EventsService) {
 	// var eventserve = events.get()
-	var articleHolder = []
-	EventsService.getEvents().forEach(function (event) {
-		event.stories.forEach(function (story) {
-			articleHolder.push(story)
-		});
-	})
-    $scope.articles = articleHolder;
+	// var articleHolder = []
+	// EventsService.getEvents().forEach(function (event) {
+	// 	event.stories.forEach(function (story) {
+	// 		articleHolder.push(story)
+	// 	});
+	// })
+    $scope.articles = EventsService.getArticles();
     $scope.events = EventsService.getEvents();
 
     $scope.setEventId = function (eventId) {
 		$scope.eventId = eventId
 		console.log($scope)
     }
+    $scope.createArticle = function (evtId, body, headline, source, type) {
+			var article = {id: 50,
+				event_ID: evtId,
+				headline: headline,
+				body: body,
+				type: type,
+				source: source}
+			EventsService.insertArticle(article, evtId)
+		};
 
 
 
@@ -46,7 +55,7 @@ app.value('articleFactory', {
 	}
 })
 
-app.directive('sortable', function (ArticlesService) {
+app.directive('sortable', function (EventsService) {
 	var linker = function (scope, element, attrs) {
 		var event_ID = scope.eventId;
 		element.sortable({
@@ -59,11 +68,11 @@ app.directive('sortable', function (ArticlesService) {
             receive: function (event, ui) {
 				var curScope = angular.element(ui.item).scope();
 				console.log("current scope", curScope)
-				// scope.$apply(function () {
-				// 	ArticlesService.insertArticleAfter(curScope)
-				// 	curScope.article.event_ID = event_ID
-				// 	// console.log("event", curScope)
-				// })
+				scope.$apply(function () {
+					EventService.insertArticleAfter(curScope, prevScope, event_ID)
+					curScope.article.event_ID = event_ID
+					// console.log("event", curScope)
+				})
 			}
         }).disableSelection();
     
@@ -119,26 +128,28 @@ app.directive('articleDrt', function () {
 		restrict: "E",
 		templateUrl: '../../views/article.html',
 		controller: controller,
-		link: linker
+		link: linker,
+		scope: true
 	};
 });
 
 app.directive('deleteButton', function () {
-	var controller = function ($scope, ArticlesService,$urlRouter) {
+	var controller = function ($scope, EventsService, $urlRouter) {
 		$scope.deleteArticle = function (id) {
-			ArticlesService.deleteArticle(id)
+			EventsService.deleteArticle(id)
 			console.log('DELETED', id);
-			$urlRouter.sync()
+			$scope.$apply()
 		};
 	}
 	var linker = function (scope, element, attrs) {
 		element.on('click', function () {
 			scope.deleteArticle(scope.article.id)
-
+			element.parent().parent().hide()
 		})
 	}
 	return {
 		restrict: "E",
+		replace:true,
 		link: linker,
 		controller:controller,
 		template: "<div class='btn btn-danger'>Delete</div>"
@@ -157,6 +168,34 @@ app.directive('editButton', function () {
 		restrict: "E",
 		link: linker,
 		template: "<a ng-href='#/article/{{article.id}}/edit' class='btn btn-primary'>Edit</a>"
+	}
+})
+
+app.directive('updateButton', function () {
+	var linker = function (scope, element, attrs) {
+		element.on('click', function () {
+			scope.updateArticle(scope.article.id)
+
+		})
+	}
+	return {
+		restrict: "E",
+		link: linker,
+		template: "<a ng-href='#/events/{{article.event_ID}}' ng-click='updateArticle(article.item_ID)' class='btn btn-primary'>Update</a>"
+	}
+})
+
+app.directive('createButton', function () {
+	var linker = function (scope, element, attrs) {
+		element.on('click', function () {
+			scope.createArticle(scope.article.event_ID, scope.article.body, scope.article.headline, scope.article.source, scope.article.type)
+
+		})
+	}
+	return {
+		restrict: "E",
+		link: linker,
+		template: "<a ng-href='#/events/{{article.event_ID}}' ng-click='updateArticle(article.item_ID)' class='btn btn-primary'>Create</a>"
 	}
 })
 

@@ -23,7 +23,9 @@
             </select>
           </div>
         </fieldset>
-        <div class="btn btn-primary" id="addArticle" ng-click="updateArticle(article.item_ID)">Update Article</div>
+        <create-button ></create-button>
+
+        <update-button ng-show="article"></update-button>
         <a class="btn btn-danger" ng-click="deleteArticle(article.id)" id="cancel">Delete</a>
         <a ui-sref="home" class="btn btn-default" id="cancel">Cancel</a>
 

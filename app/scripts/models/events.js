@@ -148,8 +148,42 @@ app.factory('EventsService', function() {
 	var getEvents = function () {
 		return events; 
 	};
+
+	var getArticles = function () {
+		var stories = []
+		events.forEach(function (event) {
+			event.stories.forEach(function (story) {
+				stories.push(story)
+			})
+		})
+		return stories
+	}
+	var deleteArticle = function (id) {
+		for(var i = 0; i < events.length; i++) {
+			var article =  _.findWhere(events[i].stories, {id: id})
+			events[i].stories.remove(article)
+		}
+		// events
+		// remove(function(s) {
+		// 	return s.id == id;
+		// })
+	}
+	var insertArticle = function (article, evtId) {
+		console.log(evtId)
+		var chosenEvent = _.findWhere(events, {event_ID: Number(evtId)})
+		console.log(chosenEvent)
+		chosenEvent.stories.push(article)
+	}
+
+	var insertArticleAfter = function (current) {
+
+	}
 	return {
-		getEvents: getEvents
+		getArticles: getArticles,
+		insertArticle: insertArticle,
+		getEvents: getEvents,
+		insertArticleAfter: insertArticleAfter,
+		deleteArticle: deleteArticle
 	};
 });
 app.config(function ( $httpProvider) {        
