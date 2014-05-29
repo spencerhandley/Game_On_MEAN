@@ -1,26 +1,15 @@
 <div class="row">
     <div class="col-md-4">
-        <div class="panel panel-default articles">
-            <div class="panel-heading">Articles</div>
-            <ul id="articlesPanel" sortable class="list list-group">
-                <li ng-repeat="article in articles" article-drt class="list-group-item"></li>
-            </ul>
+        <div class="panel panel-default articles" ui-view="articlesSide">
         </div>
     </div>
 	<div class="col-md-8" >
-		<div class="panel panel-default" ng-controller="evtCtrl">
+		<div class="panel panel-default">
 			<div class="panel-heading articles-head">
 				<breadcrumbs></breadcrumbs>
 			</div>
-			<div id="artCont" ui-view>
-				<ul id="eventPanel" class="list list-group">
-					<li ng-repeat="evt in events" class="list-group-item article">
-						<a ng-href="#/event/{{evt.event_ID}}" event="event">
-							<h5 ng-click="setEventId(evt.event_ID)">{{evt.eventName}} {{evt.event_ID}}</h5>
-	          			</a>
-	        		</li>
-	      		</ul>
-	      		 <a ui-sref="home.newarticle" class="btn btn-primary addArtBtn">Add Event</a>
+			<div id="artCont" ui-view="eventsSide">
+				
 	  		</div>
 		</div>
 	</div>

@@ -1,0 +1,7 @@
+<ul id="eventPanel" class="list list-group">
+	<li ng-repeat="evt in events" class="list-group-item article">
+		<a ng-href="#/event/{{evt.event_ID}}" event="event">
+			<h5 ng-click="setEventId(evt.event_ID)">{{evt.eventName}} {{evt.event_ID}}</h5>
+		</a>
+	</li>
+</ul>

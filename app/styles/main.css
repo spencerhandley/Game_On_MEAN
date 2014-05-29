@@ -29,6 +29,8 @@ body {
 #articlesPanel {
     max-height: 500px;
     overflow-y: scroll;
+    overflow-x: hidden; 
+
 }
 #eventArticlesPanel {
     max-height: 426px;

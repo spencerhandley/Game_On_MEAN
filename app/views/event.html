@@ -1,5 +1,7 @@
-<ul id="eventArticlesPanel" sortable class="list list-group">
-  <li ng-repeat="article in articles | filter:{event_ID: eventId}" article-drt content="article" class="list-group-item"></li>
+<ul id="eventArticlesPanel" sortable  class="list list-group">
+<!--   <article-drt ng-repeat="article in articles | filter:{event_ID: eventId}"  ></article-drt>
+ -->  
+ <article-drt ng-repeat="article in articles | filter:{event_ID: eventId}"  ></article-drt>
 
 </ul>
 <a ui-sref="home.newarticle" class="btn btn-primary addArtBtn">Add Article</a>

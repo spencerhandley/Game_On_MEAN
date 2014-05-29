@@ -1,54 +1,34 @@
 'use strict';
 var app = angular.module('gameonMeanApp')
-app.controller('MainCtrl', function ($scope, ArticlesService, EventsService, events) {
-	var eventserve = events.get()
-	console.log(eventserve)
-
-    $scope.articles = ArticlesService.getArticles();
+app.controller('MainCtrl', function ($scope, ArticlesService, EventsService) {
+	// var eventserve = events.get()
+	var articleHolder = []
+	EventsService.getEvents().forEach(function (event) {
+		event.stories.forEach(function (story) {
+			articleHolder.push(story)
+		});
+	})
+    $scope.articles = articleHolder;
     $scope.events = EventsService.getEvents();
-    $scope.path = null
-    $scope.path2 = null 
-    $scope.changePath1 = function(path) {
-    	$scope.path = path
-    }
-    $scope.changePath2 = function(path) {
-    	$scope.path2 = path
-    }
-    $scope.changePath3 = function(path) {
-    	$scope.path = path
-    }
-    $scope.resetPaths = function(path) {
-    	$scope.path = null
-    	$scope.path2 = null
 
+    $scope.setEventId = function (eventId) {
+		$scope.eventId = eventId
+		console.log($scope)
     }
+
+
 
   })
 
 
-app.controller('evtCtrl', function ($scope) {
-    $scope.setEventId = function (eventId) {
-    	console.log(eventId)
-    	$scope.eventId = eventId
-    }
-});
+// app.controller('evtCtrl', function ($scope) {
 
-app.controller('artCtrl', function ($scope, ArticlesService) {
-	$scope.deleteArticle = function (article) {
-			ArticlesService.deleteArticle(article)
-			console.log('DELETED', articleId);
-		};
-	$scope.editArticle = function (articleId, path) {
-		$scope.path2 = path
-		console.log('EDIT ARTICLE', articleId);
-	};
-	$scope.publishArticle = function () {
-    	var newArticle = articleFactory.createArticle($scope.headline, $scope.body, $scope.type, $scope.source, $scope.event)
-		ArticlesService.add(newArticle)
-		console.log('published!');
-	};
+// });
 
-})
+// app.controller('artCtrl', function ($scope, ArticlesService) {
+	
+
+// })
 
 function Article(headline, body, type, source, event) {
 	this.headline = headline;
@@ -68,27 +48,35 @@ app.value('articleFactory', {
 
 app.directive('sortable', function (ArticlesService) {
 	var linker = function (scope, element, attrs) {
-		console.log(scope)
-		var event_ID = scope.article;
+		var event_ID = scope.eventId;
 		element.sortable({
-			items: 'li',
-			connectWith: '.list',
-			receive: function (event, ui) {
-				// console.log("element", element.scope())
-				var prevScope = angular.element(ui.item.prev()).scope();
+			items: "article-drt",
+            connectWith: ".list",
+            remove: function(event, ui) {
+                ui.item.clone().prependTo('#eventArticlesPanel');
+                $(this).sortable('cancel');
+            },
+            receive: function (event, ui) {
 				var curScope = angular.element(ui.item).scope();
-				// console.log("current scope", curScope)
-				// console.log("previous Scope", prevScope)
-				scope.$apply(function () {
-					ArticlesService.insertArticleAfter(curScope, prevScope)
-					curScope.content.event_ID = event_ID
-					// console.log("event", curScope)
-				})
+				console.log("current scope", curScope)
+				// scope.$apply(function () {
+				// 	ArticlesService.insertArticleAfter(curScope)
+				// 	curScope.article.event_ID = event_ID
+				// 	// console.log("event", curScope)
+				// })
 			}
-		})
+        }).disableSelection();
+    
+	    $( "#sortable2" ).sortable({
+	        }).disableSelection();
+
 	}
 	return {
-		link: linker
+		link: linker,
+		controller: "MainCtrl"
+		// scope: {
+		// 	article: "="
+		// }
 	}
 });
 
@@ -110,7 +98,17 @@ app.directive('breadcrumbs', function () {
 })
 
 app.directive('articleDrt', function () {
-	var linker = function(scope, element) {
+	var controller = function ($scope, ArticlesService) {
+		$scope.editArticle = function (articleId) {
+			console.log('EDIT ARTICLE', articleId);
+		};
+		$scope.publishArticle = function () {
+	    	var newArticle = articleFactory.createArticle($scope.headline, $scope.body, $scope.type, $scope.source, $scope.event)
+			ArticlesService.add(newArticle)
+			console.log('published!');
+		};
+	}
+	var linker = function(scope, element, attrs) {
 		element.mouseover(function () {
 			element.css({'opacity': 0.9})
 		}).mouseout(function () {
@@ -118,8 +116,48 @@ app.directive('articleDrt', function () {
 		})
 	};
 	return {
+		restrict: "E",
 		templateUrl: '../../views/article.html',
-		controller: "artCtrl",
+		controller: controller,
 		link: linker
 	};
 });
+
+app.directive('deleteButton', function () {
+	var controller = function ($scope, ArticlesService,$urlRouter) {
+		$scope.deleteArticle = function (id) {
+			ArticlesService.deleteArticle(id)
+			console.log('DELETED', id);
+			$urlRouter.sync()
+		};
+	}
+	var linker = function (scope, element, attrs) {
+		element.on('click', function () {
+			scope.deleteArticle(scope.article.id)
+
+		})
+	}
+	return {
+		restrict: "E",
+		link: linker,
+		controller:controller,
+		template: "<div class='btn btn-danger'>Delete</div>"
+	}
+})
+
+
+app.directive('editButton', function () {
+	var linker = function (scope, element, attrs) {
+		element.on('click', function () {
+			scope.editArticle(scope.article.id)
+
+		})
+	}
+	return {
+		restrict: "E",
+		link: linker,
+		template: "<a ng-href='#/article/{{article.id}}/edit' class='btn btn-primary'>Edit</a>"
+	}
+})
+
+

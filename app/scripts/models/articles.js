@@ -3,7 +3,7 @@
 var app = angular.module('gameonMeanApp')
 
 
-app.factory('ArticlesService', function() {
+app.factory('ArticlesService', function($rootScope) {
 	var articles = [
 		{id: 1,
 		event_ID: 3,
@@ -136,9 +136,13 @@ app.factory('ArticlesService', function() {
 		});
 		console.log("ARTICLES", articles)
 		articles = articles.add(article, articles.findIndex(prevArt) + 1)
-	}
-	var deleteArticle = function (article) {
-		articles.splice(articles.indexOf(article), 1)
+	};
+	var deleteArticle = function (id) {
+		console.log(id)
+		articles.remove(function(s) {
+			return s.id == id;
+		})
+		console.log(articles)
 	}
 
 

@@ -9,35 +9,51 @@
 		$stateProvider
 			.state('home', {
 				url: '/',
-				templateUrl: 'views/main.html',
+				views: {
+					'': {templateUrl: 'views/main.html',controller: 'MainCtrl' },
+					'eventsSide@home' : {templateUrl: 'views/eventList.html'},
+					'articlesSide@home' : {templateUrl: 'views/articlesSide.html'}
+
+				},
 				controller: 'MainCtrl'
 			})
 			.state('home.newarticle', {
 				url: '/newarticle',
-				templateUrl: 'views/edit.html',
-				controller: 'evtCtrl'
+				views: {
+					'': {templateUrl: 'views/main.html'},
+					'eventsSide@home' : {
+						templateUrl: 'views/edit.html',
+
+					},
+					'articlesSide@home' : {templateUrl: 'views/articlesSide.html'}
+
+				},
+				
 			})
 			.state('home.event', {
 				url: 'event/:event',
-				templateUrl: 'views/event.html',
-				controller: 'evtCtrl'
+				views: {
+					'': {templateUrl: 'views/main.html'},
+					'eventsSide@home' : {templateUrl: 'views/event.html'},
+					'articlesSide@home' : {templateUrl: 'views/articlesSide.html'}
+
+				},
+				controller: 'MainCtrl'
 			})
 			.state('home.edit', {
 				url: 'article/:article/edit',
-				templateUrl: 'views/edit.html',
-				controller: function($scope, $stateParams, ArticlesService) {
-					var articleid = $stateParams.article;
-					console.log(_.where(ArticlesService.getArticles(), {id: Number(articleid)})[0])
-					$scope.article = _.where(ArticlesService.getArticles(), {id: Number(articleid)})[0];
-			    	$scope.deleteArticle = function (articleId) {
-						console.log('DELETED', articleId);
-					};
-					$scope.updateArticle = function (articleId) {
-						console.log('UPDATED', articleId);
-					}
+				views: {
+					'': {templateUrl: 'views/main.html'},
+					'eventsSide@home' : {
+						templateUrl: 'views/edit.html',
+						controller: function($scope, $stateParams, ArticlesService) {
+							var articleid = $stateParams.article;
+							// console.log("article", _.where(ArticlesService.getArticles(), {id: Number(articleid)})[0])
+							$scope.article = _.where($scope.articles, {id: Number(articleid)})[0];
+						} 
+					},
+					'articlesSide@home' : {templateUrl: 'views/articlesSide.html'}
 				}
-
-				// "editctrl"
 			})
 	});
 
